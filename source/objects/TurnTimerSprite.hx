@@ -5,7 +5,7 @@ class TurnTimerSprite extends FunkinSprite {
 	function get_percent():Float
 		return circleShader.percent;
 	function set_percent(value:Float):Float
-		return circleShader.percent = value;
+		return circleShader.percent = FlxMath.bound(value, 0, 1);
 
 	public function new(?isPixel:Bool) {
 		isPixel ??= false;

@@ -18,7 +18,7 @@ function postCreate():Void {
 function postUpdate(elapsed:Float):Void {
 	if (turnTimer.visible) {
 		var gapTooSmall = latestPoint - earliestPoint <= Conductor.crochet * Conductor.beatsPerMeasure;
-		if (!gapTooSmall) turnTimer.percent = FlxMath.bound(FlxMath.remapToRange(inst.time, earliestPoint, latestPoint, 0, 1), 0, 1);
+		if (!gapTooSmall) turnTimer.percent = FlxMath.remapToRange(inst.time, earliestPoint, latestPoint, 0, 1);
 		turnTimer.alpha = lerp(turnTimer.alpha, gapTooSmall ? 0 : 1, 0.15);
 	}
 }
