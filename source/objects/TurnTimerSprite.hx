@@ -14,7 +14,7 @@ class TurnTimerSprite extends FunkinSprite {
 		scale.x *= 1.7;
 		scale.y *= 1.7;
 		updateHitbox();
-		circleShader = new CustomShader('circle');
+		circleShader = new CustomShader('radialCrop');
 		circleShader.percent = 0;
 		shader = circleShader;
 		antialiasing = !isPixel;
