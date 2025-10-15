@@ -30,13 +30,15 @@ function updateTiming(?note:Note):Void {
 			for (strumLine in strumLines)
 				if (strumLine.opponentSide == PlayState.opponentMode)
 					for (note in strumLine.notes)
-						if (!note.isSustainNote && note.strumTime > earliestPoint)
-							latestPoint = Math.max(note.strumTime + getSustainLength(note) - timeOffset, 0);
+						if (!note.isSustainNote && note.strumTime > earliestPoint) // unsure if putting a break is needed for unnecessary looping, will look into later
+							latestPoint = Math.max(note.strumTime - timeOffset, 0);
 		} else if (!note.isSustainNote && note.strumLine.opponentSide == PlayState.opponentMode) {
 			earliestPoint = note.strumTime + getSustainLength(note);
-			for (note in note.strumLine.notes)
-				if (!note.isSustainNote && note.strumTime > earliestPoint)
-					latestPoint = Math.max(note.strumTime + getSustainLength(note) - timeOffset, 0);
+			if (note.nextNote.isSustainNote) {
+				var lastNote:Note;
+				sustainLoop(note.nextNote, (sustain:Note) -> lastNote = sustain.nextNote);
+				latestPoint = Math.max(lastNote.strumTime - timeOffset, 0);
+			} else latestPoint = Math.max(note.nextNote.strumTime - timeOffset, 0);
 		}
 	}
 }
