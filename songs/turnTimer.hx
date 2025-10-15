@@ -37,8 +37,8 @@ function updateTiming(?note:Note):Void {
 			if (note.nextNote.isSustainNote) {
 				var lastNote:Note;
 				sustainLoop(note.nextNote, (sustain:Note) -> lastNote = sustain.nextNote);
-				latestPoint = Math.max(lastNote.strumTime - timeOffset, 0);
-			} else latestPoint = Math.max((note.nextNote == null ? note.strumTime : note.nextNote.strumTime) - timeOffset, 0);
+				latestPoint = Math.max(lastNote == null ? earliestPoint : lastNote.strumTime - timeOffset, 0);
+			} else latestPoint = Math.max(note.nextNote.strumTime - timeOffset, 0);
 		}
 	}
 }
