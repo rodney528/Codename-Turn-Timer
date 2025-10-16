@@ -23,11 +23,11 @@ function postUpdate(elapsed:Float):Void {
 		var calculatedStepDuration:Float = (latestPoint - earliestPoint) / Conductor.stepCrochet; // step count between points
 		var stepsPerMeasure:Float = Conductor.beatsPerMeasure * Conductor.stepsPerBeat; // total steps per measure
 		var stepOffset:Float = 0.7; // shortens "stepsPerMeasure" amount by said amount of steps
-		trace(
+		/* trace(
 			calculatedStepDuration,
 			Math.max(stepsPerMeasure - stepOffset, 0), // Math.max used to prevent negative numbers
 			calculatedStepDuration < Math.max(stepsPerMeasure - stepOffset, 0) // final math
-		);
+		); */
 		var gapTooSmall = calculatedStepDuration < Math.max(stepsPerMeasure - stepOffset, 0);
 		if (!gapTooSmall) turnTimer.percent = FlxMath.remapToRange(inst.time, earliestPoint, latestPoint, 0, 1);
 		turnTimer.alpha = lerp(turnTimer.alpha, gapTooSmall ? 0 : 1, 0.15);
