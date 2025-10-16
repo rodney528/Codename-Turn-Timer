@@ -1,3 +1,5 @@
+import funkin.backend.system.Flags;
+
 class TurnTimerSprite extends FunkinSprite {
 	public var circleShader:CustomShader;
 
@@ -10,9 +12,8 @@ class TurnTimerSprite extends FunkinSprite {
 	public function new(?isPixel:Bool) {
 		isPixel ??= false;
 		super(0, 0, Paths.image('dial-sprite' + (isPixel ? '-pixel' : '')));
-		setGraphicSize(50, 50);
-		scale.x *= 1.7;
-		scale.y *= 1.7;
+		var scale:Float = 160 * Flags.DEFAULT_NOTE_SCALE * 0.9;
+		setGraphicSize(scale, scale);
 		updateHitbox();
 		circleShader = new CustomShader('radialCrop');
 		circleShader.percent = 0;

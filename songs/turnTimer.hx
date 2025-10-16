@@ -13,7 +13,7 @@ function postCreate():Void {
 	turnTimer.visible = !PlayState.coopMode;
 	turnTimer.screenCenter(FlxAxes.X);
 	turnTimer.cameras = [camHUD];
-	turnTimer.y = 60;
+	turnTimer.y = 100;
 	add(turnTimer);
 	updateTiming();
 }
@@ -31,6 +31,7 @@ function postUpdate(elapsed:Float):Void {
 		var gapTooSmall = calculatedStepDuration < Math.max(stepsPerMeasure - stepOffset, 0);
 		if (!gapTooSmall) turnTimer.percent = FlxMath.remapToRange(inst.time, earliestPoint, latestPoint, 0, 1);
 		turnTimer.alpha = lerp(turnTimer.alpha, gapTooSmall ? 0 : 1, 0.15);
+		turnTimer.flipX = turnTimer.flipY = downscroll;
 	}
 }
 
