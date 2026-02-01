@@ -29,7 +29,7 @@ function postUpdate(elapsed:Float):Void {
 			calculatedStepDuration < Math.max(stepsPerMeasure - stepOffset, 0) // final math
 		); */
 		var gapTooSmall = calculatedStepDuration < Math.max(stepsPerMeasure - stepOffset, 0);
-		if (!gapTooSmall) turnTimer.percent = FlxMath.remapToRange(inst.time, earliestPoint, latestPoint, 0, 1);
+		if (!gapTooSmall) turnTimer.percent = FlxMath.remapToRange(Conductor.songPosition, earliestPoint, latestPoint, 0, 1);
 		turnTimer.alpha = lerp(turnTimer.alpha, gapTooSmall ? 0 : 1, 0.15);
 		turnTimer.flipX = turnTimer.flipY = downscroll;
 	}
@@ -42,7 +42,7 @@ function updateTiming(?note:Note):Void {
 			for (strumLine in strumLines)
 				if (strumLine.opponentSide == PlayState.opponentMode)
 					for (note in strumLine.notes)
-						if (!note.isSustainNote && note.strumTime > earliestPoint) // unsure if putting a break is needed for unnecessary looping, will look into later
+						if (!note.isSustainNote && note.strumTime > earliestPoint)
 							newTime = note.strumTime;
 			latestPoint = greaterTimeCheck(latestPoint, newTime);
 		} else if (!note.isSustainNote && note.strumLine.opponentSide == PlayState.opponentMode) {
