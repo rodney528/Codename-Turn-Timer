@@ -9,7 +9,9 @@ function greaterTimeCheck(oldTime:Float, newTime:Float):Float
 	return newTime > oldTime ? newTime : oldTime;
 
 function postCreate():Void {
-	turnTimer = new TurnTimerSprite();
+	var pixel:Bool = false;
+	if (scripts.getByName('pixel.hx') != null) pixel = enablePixelUI;
+	turnTimer = new TurnTimerSprite(pixel);
 	turnTimer.visible = !PlayState.coopMode;
 	turnTimer.screenCenter(FlxAxes.X);
 	turnTimer.cameras = [camHUD];
@@ -47,16 +49,17 @@ function updateTiming(?note:Note):Void {
 			latestPoint = greaterTimeCheck(latestPoint, newTime);
 		} else if (!note.isSustainNote && note.strumLine.opponentSide == PlayState.opponentMode) {
 			earliestPoint = greaterTimeCheck(earliestPoint, note.strumTime + getSustainLength(note));
-			if (note.nextNote.isSustainNote) {
-				var lastNote:Note;
-				function timeCheck(saidNote:Note) {
-					sustainLoop(saidNote.nextNote, (sustain:Note) -> lastNote = sustain.nextNote);
-					if (lastNote != null && lastNote.strumTime == saidNote.strumTime)
-						timeCheck(lastNote);
-				}
-				timeCheck(note);
-				latestPoint = lastNote == null ? earliestPoint : greaterTimeCheck(latestPoint, lastNote.strumTime);
-			} else latestPoint = greaterTimeCheck(latestPoint, note.nextNote.strumTime);
+			if (note.nextNote != null)
+				if (note.nextNote.isSustainNote) {
+					var lastNote:Note;
+					function timeCheck(saidNote:Note) {
+						sustainLoop(saidNote.nextNote, (sustain:Note) -> lastNote = sustain.nextNote);
+						if (lastNote != null && lastNote.strumTime == saidNote.strumTime)
+							timeCheck(lastNote);
+					}
+					timeCheck(note);
+					latestPoint = lastNote == null ? earliestPoint : greaterTimeCheck(latestPoint, lastNote.strumTime);
+				} else latestPoint = greaterTimeCheck(latestPoint, note.nextNote.strumTime);
 		}
 	}
 }
